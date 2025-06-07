@@ -6,6 +6,7 @@ const keys = require("../config/keys");
 const client = redis.createClient({
   host: keys.redisHost,
   port: keys.redisPort,
+  password: keys.redisPassword,
   retry_strategy: () => 1000
 });
 client.hget = util.promisify(client.hget);

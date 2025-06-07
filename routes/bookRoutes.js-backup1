@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { clearKey } = require("../services/cache"); // For cache clearing on POST
+const { clearKey } = require("../services/cache"); // If you use custom cache clearing on POST
 const Book = mongoose.model("Book");
 
 module.exports = app => {
@@ -8,14 +8,14 @@ module.exports = app => {
     res.send("Hello from the root route!");
   });
 
-  // GET /api/books - fetch all books or by author, WITH CACHE!
+  // GET /api/books - fetch all books or by author
   app.get("/api/books", async (req, res) => {
     try {
       let books;
       if (req.query.author) {
-        books = await Book.find({ author: req.query.author }).cache();
+        books = await Book.find({ author: req.query.author });
       } else {
-        books = await Book.find().cache(); // <--- .cache() is back!
+        books = await Book.find(); // REMOVED .cache()
       }
       res.send(books);
     } catch (err) {
